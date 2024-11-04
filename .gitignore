@@ -1,0 +1,9 @@
+# files
+transforms.csv
+settings.csv
+my_account.session
+
+# folders
+__pycache__/
+*.py[cod]
+venv/
