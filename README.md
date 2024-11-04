@@ -1,6 +1,6 @@
 # Maltego Telegram
 
-![preview.png](https://github.com/user-attachments/assets/cc1ae1be-f54e-4578-bed8-e9fb70622682)
+![preview.png](https://github.com/user-attachments/assets/ecfa9540-8736-4d33-be6f-42334dbd409f)
 
 Maltego module for working with Telegram.
 
