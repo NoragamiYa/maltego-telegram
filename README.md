@@ -9,6 +9,8 @@ Features:
 - Indexing of all stickers/emoji in Telegram channel
 - Identification of the creator of a set of stickers/emoji
 
+Find out more: [What's wrong with stickers in Telegram? Deanonymize anonymous channels in two clicks](https://hackernoon.com/whats-wrong-with-stickers-in-telegram-deanonymize-anonymous-channels-in-two-clicks)
+
 ## Installation
 
 1. Clone the repository
