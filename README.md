@@ -19,16 +19,29 @@ Find out more: [What's wrong with stickers in Telegram? Deanonymize anonymous ch
 git clone https://github.com/vognik/maltego-telegram
 ```
 
-2. Specify secrets in `config.ini`:
-- `api_id` and `api_hash`: instructions [https://core.telegram.org/api/obtaining_api_id](https://core.telegram.org/api/obtaining_api_id)
-- `bot_token`: instruction [https://core.telegram.org/bots/tutorial#obtain-your-bot-token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token)
-3. Execute the commands
+2. Install dependencies
 
 ```
 pip install -r requirements.txt
-python project.py
+```
+
+3. Specify secrets in `config.ini`:
+- `api_id` and `api_hash`: guide [https://core.telegram.org/api/obtaining_api_id](https://core.telegram.org/api/obtaining_api_id)
+- `bot_token`: guide [https://core.telegram.org/bots/tutorial#obtain-your-bot-token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token)
+
+4. Log in to Telegram
+
+```
 python login.py
 ```
 
-4. Import `entities.mtz` and `maltego.mtz` files using Import Config in Maltego
-5. Check if they work: new entities and their associated Transforms should appear in Entity Palette.
+5. Generate Transforms Import File
+
+```
+python project.py
+```
+
+6. Import `entities.mtz` and `telegram.mtz` files using Import Config in Maltego
+7. Check if they work: new Entities and Transforms should appear in Maltego
+
+![imports.png](https://github.com/user-attachments/assets/e9ce7b6f-b14e-4239-83cd-2510ac3db9d5)

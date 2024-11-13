@@ -5,28 +5,53 @@ from extensions import registry
 
 from pyrogram.enums import MessageEntityType
 
-from utils import media_fetcher
-import logging
+from utils import media_fetcher, message_is_forwarded_from_another_chat
 
 
-async def fetch_emojis(username):
-    emoji_sets = []
-    current_batch = []
+async def collect_available_reactions(username):
+    async with app:
+        chat_info = await app.get_chat(username)
+
+        reactions = chat_info.available_reactions.reactions
+        if reactions is None:
+            return []
+
+    return [i.custom_emoji_id for i in reactions] if reactions else []
+
+
+async def collect_emoji_ids(username):
+    emoji_ids = set()
 
     async with app:
         async for message in app.get_chat_history(username):
+            
+            if message_is_forwarded_from_another_chat(message, username):
+                continue
+
             if message.entities:
                 for entity in message.entities:
-                    if (entity.type == MessageEntityType.CUSTOM_EMOJI) and hasattr(entity, "custom_emoji_id"):
-                        custom_emoji_id = entity.custom_emoji_id
+                    if entity.type == MessageEntityType.CUSTOM_EMOJI and hasattr(entity, "custom_emoji_id"):
+                        emoji_ids.add(entity.custom_emoji_id)
 
-                        if custom_emoji_id not in current_batch:
-                            current_batch.append(custom_emoji_id)
+    available_reactions = await collect_available_reactions(username)
+    emoji_ids.update(available_reactions)
 
-                            if len(current_batch) == 200:
-                                emoji_info_list = await app.get_custom_emoji_stickers(custom_emoji_ids=current_batch)
-                                emoji_sets.extend(emoji_info_list)
-                                current_batch.clear()
+    return list(emoji_ids)
+
+
+async def fetch_emoji_info(emoji_ids):
+    emoji_sets = []
+    batch_size = 200
+    current_batch = []
+
+    async with app:
+        for custom_emoji_id in emoji_ids:
+            current_batch.append(custom_emoji_id)
+
+            if len(current_batch) == batch_size:
+                emoji_info_list = await app.get_custom_emoji_stickers(custom_emoji_ids=current_batch)
+                emoji_sets.extend(emoji_info_list)
+                current_batch.clear()
 
         if current_batch:
             emoji_info_list = await app.get_custom_emoji_stickers(custom_emoji_ids=current_batch)
@@ -57,9 +82,10 @@ class ChannelToEmojiSet(DiscoverableTransform):
     @classmethod
     def create_entities(cls, request: MaltegoMsg, response: MaltegoTransform):
         username = request.getProperty("properties.channel")
-        emoji_sets = loop.run_until_complete(fetch_emojis(username))
+        emoji_sets = loop.run_until_complete(collect_emoji_ids(username))
+        emojis_info = loop.run_until_complete(fetch_emoji_info(emoji_sets))
 
-        for emoji_set in emoji_sets:
+        for emoji_set in emojis_info:
             emoji_entity = response.addEntity("interlinked.telegram.StickerSet", value=emoji_set.set_name)
 
             thumbnail = media_fetcher.get_media_preview_url(emoji_set.set_name, file_id=emoji_set.thumbs[0].file_id, media_type="emoji")

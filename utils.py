@@ -6,6 +6,13 @@ import logging
 from settings import bot_token
 
 
+def message_is_forwarded_from_another_chat(message, username):
+    if hasattr(message, "forward_from_chat") and message.forward_from_chat is not None and message.forward_from_chat.username != username:
+        return True
+
+    return False
+
+
 def make_http_request(url, method="GET", params=None, retries=3, backoff_factor=0.3, timeout=10):
     try:
         session = requests.Session()
