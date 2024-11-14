@@ -12,7 +12,7 @@ Features:
 Find out more: [What's wrong with stickers in Telegram? Deanonymize anonymous channels in two clicks](https://hackernoon.com/whats-wrong-with-stickers-in-telegram-deanonymize-anonymous-channels-in-two-clicks)
 
 ## How does it work?
-![work.png](https://github.com/user-attachments/assets/3b4d949d-1ed3-4087-8ea6-ee875ffd702d)
+![work.png](https://github.com/user-attachments/assets/d5ebb835-138f-4d4e-8b52-570dee9babb0)
 
 Each Telegram user has their own UID.
 
