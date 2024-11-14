@@ -11,6 +11,22 @@ Features:
 
 Find out more: [What's wrong with stickers in Telegram? Deanonymize anonymous channels in two clicks](https://hackernoon.com/whats-wrong-with-stickers-in-telegram-deanonymize-anonymous-channels-in-two-clicks)
 
+## How does it work?
+![work.png](https://github.com/user-attachments/assets/3b4d949d-1ed3-4087-8ea6-ee875ffd702d)
+
+Each Telegram user has their own UID.
+
+Any sticker pack has its creator's UID hidden in it, which can be seen by any user.
+
+To do this, follow the algorithm:
+1. Make an API request to get information about the sticker pack
+2. Take the value of the "ID" key from the response
+3. Perform a binary shift by 32 to the right.
+
+The resulting UID can be exchanged for a familiar login using the `@tgdb_bot` bot, and thus reveal the user's profile.
+
+**The author of a channel who did not leave contacts can be de-anonymized. To do this, you need to scan his channel and find the sticker packs that he has ever created. And then use the algorithm above to get the real profile.**
+
 ## Installation
 
 1. Clone the repository
