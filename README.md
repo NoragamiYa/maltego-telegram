@@ -6,6 +6,7 @@ Maltego module for working with Telegram.
 
 Features:
 
+- Getting Telegram profile by phone number
 - Indexing of all stickers/emoji in Telegram channel
 - Identification of the creator of a set of stickers/emoji
 
@@ -63,7 +64,7 @@ python project.py
 ![imports.png](https://github.com/user-attachments/assets/e9ce7b6f-b14e-4239-83cd-2510ac3db9d5)
 
 
-## How to use as a Maltego transform
+## Usage
 Drag and drop an entity from the Entity Pallete, right-click and select the desired Transform.
 
 https://github.com/user-attachments/assets/1fa23899-fd52-435f-830b-0df27cb65439

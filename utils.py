@@ -3,6 +3,8 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import logging
 
+from lxml import html
+
 from settings import bot_token
 
 
@@ -33,6 +35,25 @@ def make_http_request(url, method="GET", params=None, retries=3, backoff_factor=
     except requests.RequestException as e:
         logging.error(f"HTTP request failed for {url}: {e}")
         return None
+
+
+def fetch_user_info(username):
+    photo = None
+    full_name = None
+
+    response_data = make_http_request(f"https://t.me/{username}")
+    tree = html.fromstring(response_data)
+
+    images = tree.cssselect("img.tgme_page_photo_image")
+    if images:
+        photo = images[0].get("src")
+    
+    title = tree.cssselect('.tgme_page_title span')
+    if title:
+        full_name = title[0].text_content()
+        full_name = (full_name.encode('cp1252', errors="ignore")).decode("cp1252")
+    
+    return {"full_name": full_name, "photo": photo}
 
 
 class MediaFetcher:

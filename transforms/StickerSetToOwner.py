@@ -2,13 +2,11 @@ from maltego_trx.transform import DiscoverableTransform
 from maltego_trx.maltego import MaltegoMsg, MaltegoTransform
 from settings import app, loop
 from extensions import registry
-from utils import make_http_request
+from utils import fetch_user_info
 
 from pyrogram import Client
 from pyrogram.raw import types, functions
 from pyrogram.types import User
-
-from lxml import html
 
 import re
 import contextlib
@@ -28,7 +26,7 @@ async def fetch_sticker_set_owner(short_name: str):
         owner_id = sticker_set.set.id >> 32
 
         with contextlib.suppress(Exception):
-            if owner := await mtproto_app.get_users(owner_id):
+            if owner := await app.get_users(owner_id):
                 return owner
 
         try:
@@ -48,25 +46,6 @@ async def fetch_sticker_set_owner(short_name: str):
         return User(id=owner_id)
 
 
-def fetch_owner_info(username):
-    photo = None
-    full_name = None
-
-    response_data = make_http_request(f"https://t.me/{username}")
-    tree = html.fromstring(response_data)
-
-    images = tree.cssselect("img.tgme_page_photo_image")
-    if images:
-        photo = images[0].get("src")
-    
-    title = tree.cssselect('.tgme_page_title span')
-    if title:
-        full_name = title[0].text_content()
-        full_name = (full_name.encode('cp1252', errors="ignore")).decode("cp1252")
-    
-    return {"full_name": full_name, "photo": photo}
-
-
 @registry.register_transform(display_name="To Sticker Set Owner", input_entity="interlinked.telegram.StickerSet",
                              description="This Transform finds the owner of the sticker set",
                              output_entities=["interlinked.telegram.UserProfile"])
@@ -84,7 +63,7 @@ class StickerSetToOwner(DiscoverableTransform):
         )
 
         if owner.username is not None:
-            owner_info = fetch_owner_info(owner.username)
+            owner_info = fetch_user_info(owner.username)
             stickerset_owner_entity.addProperty("properties.photo", value=owner_info["photo"])
             stickerset_owner_entity.addProperty(
                 "properties.full_name", 
