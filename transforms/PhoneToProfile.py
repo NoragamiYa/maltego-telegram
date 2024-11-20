@@ -5,7 +5,7 @@ from extensions import registry
 
 from pyrogram.types import InputPhoneContact
 
-from utils import fetch_web_info
+from utils import fetch_web_info, process_profile_entity
 
 import logging
 
@@ -31,22 +31,9 @@ class PhoneToProfile(DiscoverableTransform):
         profile = loop.run_until_complete(fetch_profile_by_phone(phone))
 
         if profile:
-            if profile.username:
-                profile_entity = response.addEntity("interlinked.telegram.UserProfile", value=profile.username)
+            entity = process_profile_entity(profile)
 
-                user_info = fetch_web_info(profile.username)
-                profile_entity.addProperty("properties.photo", value=user_info["photo"])
-            else:
-                profile_entity = response.addEntity("interlinked.telegram.UserProfile", value=profile.id)
+            entity.addProperty("properties.phone", value=phone)
 
-            profile_entity.addProperty("properties.id", value=profile.id)
-            profile_entity.addProperty("properties.phone", value=phone)
-
-            first_name = (profile.first_name.encode('cp1252', errors="ignore")).decode("cp1252")
-            profile_entity.addProperty("properties.first_name", value=first_name)
-
-            if profile.last_name:
-                last_name = (profile.last_name.encode('cp1252', errors="ignore")).decode("cp1252")
-                profile_entity.addProperty("properties.last_name", value=last_name)
-
-            profile_entity.setLinkThickness(2)
+            entity.setLinkThickness(2)
+            response.entities.append(entity)
