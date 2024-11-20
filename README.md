@@ -7,6 +7,8 @@ Maltego module for working with Telegram.
 Features:
 
 - Getting Telegram profile by phone number
+- Getting a linked Telegram channel group
+- Getting a list of Telegram group administrators
 - Indexing of all stickers/emoji in Telegram channel
 - Identification of the creator of a set of stickers/emoji
 
