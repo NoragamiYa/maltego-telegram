@@ -1,8 +1,8 @@
 # Maltego Telegram
 
-![preview.png](https://github.com/user-attachments/assets/ecfa9540-8736-4d33-be6f-42334dbd409f)
+![preview.png](https://github.com/user-attachments/assets/5463e9a9-9db3-4b0d-a888-bd19f5190cac)
 
-Maltego module for working with Telegram.
+Maltego Transforms for working with Telegram.
 
 Features:
 
@@ -12,23 +12,23 @@ Features:
 - Indexing of all stickers/emoji in Telegram channel
 - Identification of the creator of a set of stickers/emoji
 
-Find out more: [What's wrong with stickers in Telegram? Deanonymize anonymous channels in two clicks](https://hackernoon.com/whats-wrong-with-stickers-in-telegram-deanonymize-anonymous-channels-in-two-clicks)
-
 ## How does it work?
 ![work.png](https://github.com/user-attachments/assets/d5ebb835-138f-4d4e-8b52-570dee9babb0)
 
 Each Telegram user has their own UID.
 
-Any sticker pack has its creator's UID hidden in it, which can be seen by any user.
+Each sticker set that a user creates has its ID hidden in it.
 
-To do this, follow the algorithm:
-1. Make an API request to get information about the sticker pack
+To reveal it, my Transform executes the following algorithm:
+1. Make an API request to get information about the sticker set
 2. Take the value of the "ID" key from the response
 3. Perform a binary shift by 32 to the right.
 
 The resulting UID can be exchanged for a familiar login using the `@tgdb_bot` bot, and thus reveal the user's profile.
 
-**The author of a channel who did not leave contacts can be de-anonymized. To do this, you need to scan his channel and find the sticker packs that he has ever created. And then use the algorithm above to get the real profile.**
+**The author of a channel who did not leave contacts can be de-anonymized. To do this, you need to scan his channel and find the sticker packs that he has ever created. My Transform for Maltego does this automatically.**
+
+Find out more: [What's wrong with stickers in Telegram? Deanonymize anonymous channels in two clicks](https://hackernoon.com/whats-wrong-with-stickers-in-telegram-deanonymize-anonymous-channels-in-two-clicks)
 
 ## Installation
 
