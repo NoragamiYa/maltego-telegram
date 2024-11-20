@@ -1,6 +1,6 @@
 from maltego_trx.transform import DiscoverableTransform
 from maltego_trx.maltego import MaltegoMsg, MaltegoTransform
-from settings import app, loop, bot_token
+from settings import app, loop
 from extensions import registry
 
 from pyrogram.enums import MessageEntityType
@@ -9,21 +9,24 @@ from utils import media_fetcher, message_is_forwarded_from_another_chat
 
 
 async def collect_available_reactions(username):
+    reactions = []
+
     async with app:
         chat_info = await app.get_chat(username)
-
+        
+    if chat_info.available_reactions:
         reactions = chat_info.available_reactions.reactions
         if reactions is None:
             return []
 
-    return [i.custom_emoji_id for i in reactions] if reactions else []
+    return [i.custom_emoji_id for i in reactions]
 
 
 async def collect_emoji_ids(username):
     emoji_ids = set()
 
     async with app:
-        async for message in app.get_chat_history(username):
+        async for message in app.get_chat_history(username, limit=10):
             
             if message_is_forwarded_from_another_chat(message, username):
                 continue

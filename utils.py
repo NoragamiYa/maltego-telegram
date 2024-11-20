@@ -3,6 +3,8 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import logging
 
+from maltego_trx.maltego import MaltegoEntity
+
 from lxml import html
 
 from settings import bot_token
@@ -37,7 +39,7 @@ def make_http_request(url, method="GET", params=None, retries=3, backoff_factor=
         return None
 
 
-def fetch_user_info(username):
+def fetch_web_info(username):
     photo = None
     full_name = None
 
@@ -54,6 +56,29 @@ def fetch_user_info(username):
         full_name = (full_name.encode('cp1252', errors="ignore")).decode("cp1252")
     
     return {"full_name": full_name, "photo": photo}
+
+
+def process_profile_entity(profile):
+    if profile.username:
+        profile_entity = MaltegoEntity("interlinked.telegram.UserProfile", value=profile.username)
+        user_info = fetch_web_info(profile.username)
+        profile_entity.addProperty("properties.photo", value=user_info["photo"])
+    else:
+        profile_entity = response.addEntity("interlinked.telegram.UserProfile", value=profile.id)
+
+    profile_entity.addProperty("properties.id", value=profile.id)
+
+    if profile.phone_number:
+        profile_entity.addProperty("properties.phone", value=profile.phone_number)
+
+    first_name = (profile.first_name.encode('cp1252', errors="ignore")).decode("cp1252")
+    profile_entity.addProperty("properties.first_name", value=first_name)
+
+    if profile.last_name:
+        last_name = (profile.last_name.encode('cp1252', errors="ignore")).decode("cp1252")
+        profile_entity.addProperty("properties.last_name", value=last_name)
+
+    return profile_entity
 
 
 class MediaFetcher:

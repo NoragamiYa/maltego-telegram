@@ -5,18 +5,14 @@ from extensions import registry
 
 from pyrogram.types import InputPhoneContact
 
-from utils import fetch_user_info
+from utils import fetch_web_info
 
 import logging
 
 
 async def fetch_profile_by_phone(phone: str):
     async with app:
-        contacts = await app.import_contacts(
-            [
-                InputPhoneContact(phone, 'Foo')
-            ]
-        )
+        contacts = await app.import_contacts([InputPhoneContact(phone, 'Foo')])
         if contacts.users:
             await app.delete_contacts(contacts.users[0].id)
             return await app.get_users(contacts.users[0].id)
@@ -38,7 +34,7 @@ class PhoneToProfile(DiscoverableTransform):
             if profile.username:
                 profile_entity = response.addEntity("interlinked.telegram.UserProfile", value=profile.username)
 
-                user_info = fetch_user_info(profile.username)
+                user_info = fetch_web_info(profile.username)
                 profile_entity.addProperty("properties.photo", value=user_info["photo"])
             else:
                 profile_entity = response.addEntity("interlinked.telegram.UserProfile", value=profile.id)

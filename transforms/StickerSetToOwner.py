@@ -2,7 +2,7 @@ from maltego_trx.transform import DiscoverableTransform
 from maltego_trx.maltego import MaltegoMsg, MaltegoTransform
 from settings import app, loop
 from extensions import registry
-from utils import fetch_user_info
+from utils import fetch_web_info
 
 from pyrogram import Client
 from pyrogram.raw import types, functions
@@ -63,7 +63,7 @@ class StickerSetToOwner(DiscoverableTransform):
         )
 
         if owner.username is not None:
-            owner_info = fetch_user_info(owner.username)
+            owner_info = fetch_web_info(owner.username)
             stickerset_owner_entity.addProperty("properties.photo", value=owner_info["photo"])
             stickerset_owner_entity.addProperty(
                 "properties.full_name", 
