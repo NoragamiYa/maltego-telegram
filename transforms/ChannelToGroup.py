@@ -17,7 +17,7 @@ async def fetch_linked_group(username: str):
 
 @registry.register_transform(display_name="To Linked Group", input_entity="interlinked.telegram.Channel",
                              description="This Transform finds the linked group",
-                             output_entities=["interlinked.telegram.Group"])
+                             output_entities=["interlinked.telegram.Author"])
 class ChannelToGroup(DiscoverableTransform):
 
     @classmethod
@@ -26,7 +26,9 @@ class ChannelToGroup(DiscoverableTransform):
         linked_group = loop.run_until_complete(fetch_linked_group(username))
 
         if linked_group:
-            group_entity = response.addEntity("interlinked.telegram.Group", value=linked_group.username)
+            identity = linked_group.username if linked_group.username else linked_group.id
+            
+            group_entity = response.addEntity("interlinked.telegram.Group", value=identity)
             group_entity.addProperty("properties.title", value=linked_group.title)
 
             photo = fetch_web_info(linked_group.username)["photo"]
