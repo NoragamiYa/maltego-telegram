@@ -23,7 +23,7 @@ async def fetch_authors(username: str):
 
 @registry.register_transform(display_name="To Authors", input_entity="interlinked.telegram.Channel",
                              description="This Transform finds authors who published posts",
-                             output_entities=["interlinked.telegram.Group"])
+                             output_entities=["interlinked.telegram.Author"])
 class ChannelToAuthors(DiscoverableTransform):
 
     @classmethod
