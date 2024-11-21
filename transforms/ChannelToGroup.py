@@ -17,7 +17,7 @@ async def fetch_linked_group(username: str):
 
 @registry.register_transform(display_name="To Linked Group", input_entity="interlinked.telegram.Channel",
                              description="This Transform finds the linked group",
-                             output_entities=["interlinked.telegram.Author"])
+                             output_entities=["interlinked.telegram.Group"])
 class ChannelToGroup(DiscoverableTransform):
 
     @classmethod
