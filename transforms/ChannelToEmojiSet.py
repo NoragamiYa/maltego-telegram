@@ -19,7 +19,7 @@ async def collect_available_reactions(username):
         if reactions is None:
             return []
 
-    return [i.custom_emoji_id for i in reactions]
+    return [i.custom_emoji_id for i in reactions] if reactions else None
 
 
 async def collect_emoji_ids(username):
@@ -31,10 +31,12 @@ async def collect_emoji_ids(username):
             if message_is_forwarded_from_another_chat(message, username):
                 continue
 
-            if message.entities:
-                for entity in message.entities:
-                    if entity.type == MessageEntityType.CUSTOM_EMOJI and hasattr(entity, "custom_emoji_id"):
-                        emoji_ids.add(entity.custom_emoji_id)
+            entities = message.entities or []
+            caption_entities = message.caption_entities or []
+
+            for entity in entities + caption_entities:
+                if entity.type == MessageEntityType.CUSTOM_EMOJI and hasattr(entity, "custom_emoji_id"):
+                    emoji_ids.add(entity.custom_emoji_id)
 
     available_reactions = await collect_available_reactions(username)
     emoji_ids.update(available_reactions)
@@ -49,7 +51,8 @@ async def fetch_emoji_info(emoji_ids):
 
     async with app:
         for custom_emoji_id in emoji_ids:
-            current_batch.append(custom_emoji_id)
+            if custom_emoji_id is not None:
+                current_batch.append(custom_emoji_id)
 
             if len(current_batch) == batch_size:
                 emoji_info_list = await app.get_custom_emoji_stickers(custom_emoji_ids=current_batch)
