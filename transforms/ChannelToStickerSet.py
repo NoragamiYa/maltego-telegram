@@ -1,6 +1,6 @@
 from maltego_trx.transform import DiscoverableTransform
 from maltego_trx.maltego import MaltegoMsg, MaltegoTransform
-from settings import app, loop, bot_token
+from settings import app, loop, bot_token, limit
 from extensions import registry
 
 from utils import make_http_request, media_fetcher
@@ -11,7 +11,7 @@ async def fetch_stickers(username):
     unique_set_names = set()
     
     async with app:
-        async for message in app.get_chat_history(username):
+        async for message in app.get_chat_history(username, limit=limit):
             if message.sticker is not None and message.sticker.set_name not in unique_set_names:
                 unique_set_names.add(message.sticker.set_name)
                 sticker_sets.append(message.sticker)

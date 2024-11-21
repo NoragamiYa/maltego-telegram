@@ -9,6 +9,7 @@ Features:
 - Getting Telegram profile by phone number
 - Getting a linked Telegram channel group
 - Getting a list of Telegram group administrators
+- Getting a list of authors of a Telegram channel
 - Indexing of all stickers/emoji in Telegram channel
 - Identification of the creator of a set of stickers/emoji
 

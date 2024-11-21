@@ -23,5 +23,7 @@ api_id = int(config.get("telegram", "api_id", fallback=0))
 api_hash = config.get("telegram", "api_hash", fallback="")
 bot_token = config.get("telegram", "bot_token", fallback="")
 
+limit = int(config.get("misc", "limit", fallback=0))
+
 app = Client("my_account", api_id, api_hash)
 loop = asyncio.get_event_loop()

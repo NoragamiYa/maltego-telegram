@@ -1,6 +1,6 @@
 from maltego_trx.transform import DiscoverableTransform
 from maltego_trx.maltego import MaltegoMsg, MaltegoTransform
-from settings import app, loop
+from settings import app, loop, limit
 from extensions import registry
 
 from pyrogram.enums import MessageEntityType
@@ -26,8 +26,8 @@ async def collect_emoji_ids(username):
     emoji_ids = set()
 
     async with app:
-        async for message in app.get_chat_history(username, limit=10):
-            
+        async for message in app.get_chat_history(username, limit=limit):
+
             if message_is_forwarded_from_another_chat(message, username):
                 continue
 
