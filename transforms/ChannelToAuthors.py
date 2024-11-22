@@ -5,8 +5,6 @@ from extensions import registry
 
 from utils import message_is_forwarded_from_another_chat
 
-import logging
-
 
 async def fetch_authors(username: str):
     authors = []
