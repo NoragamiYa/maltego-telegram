@@ -48,7 +48,7 @@ Telegram has a built-in function to search for channels whose audience overlaps 
 Maltego makes the search more convenient by visualizing the results.
 
 ### Search for deleted posts and their content
-![deleted.png](https://github.com/user-attachments/assets/2ce40dc1-0d08-41cc-8169-36839426447c)
+![deleted.png](https://github.com/user-attachments/assets/f3708918-4c9f-44f2-8be9-483e4f19cbea)
 
 In Telegram, each post has a unique numeric ID, which increases with each new post. The first post in a channel has ID 1, the second post has ID 2, and so on. If there are gaps between post numbers, it means that some posts have been deleted.
 
