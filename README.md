@@ -11,6 +11,7 @@ Features:
 - Getting a list of Telegram group administrators
 - Getting a list of authors of a Telegram channel
 - Collect all forwarded & similar channels by Channel
+- Search for deleted posts and generate links to view them
 - Indexing of all stickers/emoji in Telegram channel
 - Identification of the creator of a set of stickers/emoji
 
