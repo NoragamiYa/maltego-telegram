@@ -2,9 +2,11 @@
 
 ![preview.png](https://github.com/user-attachments/assets/5463e9a9-9db3-4b0d-a888-bd19f5190cac)
 
-Maltego Transforms for working with Telegram.
+**Telegram Maltego** — a free set of Transforms for Maltego that enables OSINT investigations in the Telegram messenger.
 
-Features:
+Initially designed solely to simplify de-anonymization through stickers/emojis, it has since expanded far beyond its original functionality, allowing for more advanced investigations.
+
+**Features:**
 
 - Getting Telegram profile by phone number
 - Getting a linked Telegram channel group
@@ -15,8 +17,13 @@ Features:
 - Indexing of all stickers/emoji in Telegram channel
 - Identification of the creator of a set of stickers/emoji
 
-## How does it work?
-![work.png](https://github.com/user-attachments/assets/d5ebb835-138f-4d4e-8b52-570dee9babb0)
+## How it works
+Currently, there are over 10 available Transforms. A full list can be found in the directory of the same name, as well as in the Maltego program when you import them.
+
+Here’s how some of these Transforms work.
+
+### Search for stickers and their creators
+![stickers.png](https://github.com/user-attachments/assets/d5ebb835-138f-4d4e-8b52-570dee9babb0)
 
 Each Telegram user has their own UID.
 
@@ -32,6 +39,22 @@ The resulting UID can be exchanged for a familiar login using the `@tgdb_bot` bo
 **The author of a channel who did not leave contacts can be de-anonymized. To do this, you need to scan his channel and find the sticker packs that he has ever created. My Transform for Maltego does this automatically.**
 
 Find out more: [What's wrong with stickers in Telegram? Deanonymize anonymous channels in two clicks](https://hackernoon.com/whats-wrong-with-stickers-in-telegram-deanonymize-anonymous-channels-in-two-clicks)
+
+### Search for similar channels
+![similar.png](https://github.com/user-attachments/assets/87ff0649-3b8f-4e7c-85a7-1a5451230a6f)
+
+Telegram has a built-in function to search for channels whose audience overlaps with the current one. 
+
+Maltego makes the search more convenient by visualizing the results.
+
+### Search for deleted posts and their content
+![deleted.png](https://github.com/user-attachments/assets/09d1d004-9b38-46ab-8e95-634fd02aac63)
+
+In Telegram, each post has a unique numeric ID, which increases with each new post. The first post in a channel has ID 1, the second post has ID 2, and so on. If there are gaps between post numbers, it means that some posts have been deleted.
+
+There are services that index Telegram content. Even if a post has been deleted from Telegram, it may still be stored in these services.
+
+This Transform helps you find deleted posts and creates links to view them in the archives.
 
 ## Installation
 
