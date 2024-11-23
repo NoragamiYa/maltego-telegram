@@ -6,6 +6,7 @@ from extensions import registry
 from pyrogram.enums import MessageEntityType
 
 from utils import media_fetcher, message_is_forwarded_from_another_chat
+import logging
 
 
 async def collect_available_reactions(username):
@@ -19,7 +20,7 @@ async def collect_available_reactions(username):
         if reactions is None:
             return []
 
-    return [i.custom_emoji_id for i in reactions] if reactions else None
+    return [i.custom_emoji_id for i in reactions] if reactions else []
 
 
 async def collect_emoji_ids(username):

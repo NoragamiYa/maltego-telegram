@@ -15,7 +15,7 @@ maltego-trx==1.6.1
 MarkupSafe==3.0.2
 pyaes==1.6.1
 pycparser==2.22
-Pyrogram==2.0.106
+Pyrogram @ git+https://github.com/KurimuzonAkuma/pyrogram.git@d4d5a2d316719f6e98de87246cf4c573994d728d
 PySocks==1.7.1
 requests==2.32.3
 TgCrypto==1.2.5

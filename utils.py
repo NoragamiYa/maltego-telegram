@@ -59,13 +59,39 @@ def fetch_web_info(username):
     return {"full_name": full_name, "photo": photo}
 
 
+def create_maltego_entity(entity, obj):
+    identity = obj.username if obj.username else obj.id
+
+    entity = MaltegoEntity(entity, identity)
+
+    exclude_keys = ["raw", "photo", "_client", "usernames"]
+
+    if isinstance(obj, dict):
+        attributes = obj.items()
+    elif hasattr(obj, "__dict__"):
+        attributes = vars(obj).items()
+    elif hasattr(obj, "__slots__"):
+        attributes = [(attr, getattr(obj, attr)) for attr in obj.__slots__]
+    else:
+        raise ValueError("Unsupported object type. Must be dict or object with __dict__ or __slots__.")
+
+    for key, value in attributes:
+        if key is not None and value and key not in exclude_keys:
+            entity.addProperty(
+                f"properties.{key}",
+                value=value
+            )
+
+    return entity
+
+
 def process_profile_entity(profile):
     if profile.username:
         profile_entity = MaltegoEntity("interlinked.telegram.UserProfile", value=profile.username)
         user_info = fetch_web_info(profile.username)
         profile_entity.addProperty("properties.photo", value=user_info["photo"])
     else:
-        profile_entity = response.addEntity("interlinked.telegram.UserProfile", value=profile.id)
+        profile_entity = MaltegoEntity("interlinked.telegram.UserProfile", value=profile.id)
 
     profile_entity.addProperty("properties.id", value=profile.id)
 
