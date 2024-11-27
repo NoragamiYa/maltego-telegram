@@ -22,7 +22,7 @@ Currently, there are over 10 available Transforms. A full list can be found in t
 
 Here’s how some of these Transforms work.
 
-### Search for stickers and their creators
+### Stickers and their creators
 ![stickers.png](https://github.com/user-attachments/assets/d5ebb835-138f-4d4e-8b52-570dee9babb0)
 
 Each Telegram user has their own UID.
@@ -40,14 +40,23 @@ The resulting UID can be exchanged for a familiar login using the `@tgdb_bot` bo
 
 Find out more: [What's wrong with stickers in Telegram? Deanonymize anonymous channels in two clicks](https://hackernoon.com/whats-wrong-with-stickers-in-telegram-deanonymize-anonymous-channels-in-two-clicks)
 
-### Search for similar channels
+### Similar channels
 ![similar.png](https://github.com/user-attachments/assets/87ff0649-3b8f-4e7c-85a7-1a5451230a6f)
 
 Telegram has a built-in function to search for channels whose audience overlaps with the current one. 
 
 Maltego makes the search more convenient by visualizing the results.
 
-### Search for deleted posts and their content
+### Profiles that may be associated with the channel
+![forwarded.png](https://github.com/user-attachments/assets/6f2d875a-c0d1-48da-b5c2-82a5912c1c71)
+
+Administrators can forward their own messages and other users to their channel.
+
+If a user has changed their privacy settings and removed the link to their account (Forwarded Messages = Nobody), this will only apply to forwarding their new messages.
+
+Old forwarded messages will still link to their real profile.
+
+### Deleted posts and their content
 ![deleted.png](https://github.com/user-attachments/assets/f3708918-4c9f-44f2-8be9-483e4f19cbea)
 
 In Telegram, each post has a unique numeric ID, which increases with each new post. The first post in a channel has ID 1, the second post has ID 2, and so on. If there are gaps between post numbers, it means that some posts have been deleted.

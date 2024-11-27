@@ -31,7 +31,7 @@ class ChannelToDeletedPosts(DiscoverableTransform):
         ids = loop.run_until_complete(find_missing_post_ids(username))
 
         for post_id in ids:
-            link = f"https://tgstat.ru/channel/@mfavladivostok/{post_id}"
+            link = f"https://tgstat.ru/channel/{username}/{post_id}"
             entity = response.addEntity("maltego.URL", value=str(post_id))
             entity.addProperty("url", value=link)
             entity.addProperty("title", value=post_id)
